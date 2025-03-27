@@ -12,16 +12,16 @@ For projects that don't use React or other JSX libraries, this is the simplest a
 
    ```bash
    # Using npm
-   npm install @hack-dance/aisx
+   npm install aisx
    
    # Using yarn
-   yarn add @hack-dance/aisx
+   yarn add aisx
    
    # Using pnpm
-   pnpm add @hack-dance/aisx
+   pnpm add aisx
    
    # Using bun
-   bun add @hack-dance/aisx
+   bun add aisx
    ```
 
 2. Configure `tsconfig.json` by extending aisx's provided configuration:

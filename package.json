@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "build": "bun build",
-    "dev": "bun run build --watch ./aisx/src"
+    "build": "cd aisx && bun run build",
+    "dev": "cd aisx && bun run build --watch ./src",
+    "test": "cd tests && bun test",
+    "lint:check": "cd aisx && bun run lint:check",
+    "lint:fix": "cd aisx && bun run lint:fix"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",

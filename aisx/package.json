@@ -1,10 +1,10 @@
 {
-  "name": "@hack-dance/aisx",
+  "name": "aisx",
   "version": "0.1.0",
-  "description": "A JSX-based templating engine for generating strings with TypeScript support",
+  "description": "A JSX-based templating engine for generating structured prompts with TypeScript support",
   "license": "MIT",
   "author": "Dimitri Kennedy <dimitri@sick.email> (https://hack.dance)",
-  "homepage": "https://island.hack.dance",
+  "homepage": "https://github.com/hack-dance/aisx#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/hack-dance/aisx.git"
@@ -22,7 +22,11 @@
     "bun",
     "node",
     "ai",
-    "ml"
+    "ml",
+    "prompt-engineering",
+    "llm",
+    "prompts",
+    "structured-prompts"
   ],
   "type": "module",
   "main": "dist/index.js",
@@ -33,7 +37,7 @@
     "dist",
     "README.md",
     "SETUP.md",
-    "global.d.ts"
+    "LICENSE"
   ],
   "exports": {
     ".": {
@@ -62,10 +66,10 @@
   },
   "scripts": {
     "build": "bun ./build.ts",
-    "publish:npm": "bun build-scripts/publish.ts",
-    "publish:patch": "bun build-scripts/publish.ts patch",
-    "publish:minor": "bun build-scripts/publish.ts minor",
-    "publish:major": "bun build-scripts/publish.ts major",
+    "publish:npm": "bun ./publish.ts",
+    "publish:patch": "bun ./publish.ts patch",
+    "publish:minor": "bun ./publish.ts minor",
+    "publish:major": "bun ./publish.ts major",
     "lint:check": "TIMING=1 eslint src --max-warnings=0",
     "lint:fix": "eslint --fix src",
     "prepublishOnly": "bun run build",
@@ -73,5 +77,9 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "bun": ">=1.0.0"
   }
 }

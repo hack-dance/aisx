@@ -34,21 +34,23 @@ Managing complex prompts for LLMs using template strings or manually concatenate
 
 ```bash
 # Using npm
-npm install @hack-dance/aisx
+npm install aisx
 
 # Using yarn
-yarn add @hack-dance/aisx
+yarn add aisx
 
 # Using pnpm
-pnpm add @hack-dance/aisx
+pnpm add aisx
 
 # Using bun
-bun add @hack-dance/aisx
+bun add aisx
 ```
 
 ## Setup
 
-aisx can be set up in various ways depending on your project requirements. Here are the recommended approaches:
+For comprehensive setup instructions and troubleshooting, please refer to [SETUP.md](./SETUP.md).
+
+Below is a quick overview of how to set up aisx in your project. aisx can be configured in various ways depending on your project requirements:
 
 ### Standalone Setup (Recommended)
 
