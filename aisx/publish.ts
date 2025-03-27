@@ -121,10 +121,23 @@ const packageJson = JSON.parse(await readFile("package.json", "utf-8"))
 newVersion = packageJson.version
 console.log(`✅ Version bumped to ${newVersion}\n`)
 
-// Copy documentation and license files to dist
 console.log("📋 Copying documentation files...")
-await $`cp README.md SETUP.md LICENSE dist/`
-console.log("✅ Documentation files copied\n")
+try {
+  const copyFile = async (file: string) => {
+    try {
+      await $`cp ${file} dist/`
+    } catch {
+      console.log(`⚠️ Warning: Could not find ${file}`)
+
+      throw new Error(`Could not find ${file}`)
+    }
+  }
+
+  await Promise.all([copyFile("../README.md"), copyFile("../SETUP.md"), copyFile("../LICENSE")])
+  console.log("✅ Documentation files copied\n")
+} catch (error) {
+  console.log("⚠️ Warning: Some documentation files could not be copied\n")
+}
 
 // Create dist package.json
 console.log("📦 Creating distribution package.json...")
@@ -143,7 +156,8 @@ const distPackageJson = {
   peerDependencies: packageJson.peerDependencies,
   repository: packageJson.repository,
   bugs: packageJson.bugs,
-  homepage: packageJson.homepage
+  homepage: packageJson.homepage,
+  engines: packageJson.engines
 }
 
 // Copy exports and fix paths
