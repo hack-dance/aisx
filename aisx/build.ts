@@ -1,6 +1,7 @@
-import { cp, writeFile } from "node:fs/promises"
+import { cp, writeFile, mkdir, chmod } from "node:fs/promises"
 import { join } from "node:path"
 import { $ } from "bun"
+import fs from "node:fs"
 
 await $`rm -rf dist`
 
@@ -120,5 +121,38 @@ await writeFile(
 
 console.debug("Copying global.d.ts to dist...")
 await cp("./src/global.d.ts", "./dist/global.d.ts")
+
+if (fs.existsSync("./bin")) {
+  console.debug("Building initialization script...")
+
+  await mkdir("./dist/bin", { recursive: true })
+
+  const result = await Bun.build({
+    entrypoints: ["./bin/index.ts"],
+    outdir: "./dist/bin",
+    format: "esm",
+    target: "node",
+    sourcemap: "external",
+    minify: false
+  })
+
+  if (result.success) {
+    const initPath = join("dist", "bin", "index.js")
+
+    let content = fs.readFileSync(initPath, "utf-8")
+
+    content = content.replace("#!/usr/bin/env bun", "#!/usr/bin/env node")
+
+    if (!content.startsWith("#!/usr/bin/env node")) {
+      content = "#!/usr/bin/env node\n" + content
+      fs.writeFileSync(initPath, content)
+    }
+
+    await chmod(initPath, 0o755)
+    console.debug("Initialization script built successfully!")
+  } else {
+    console.error("Failed to build initialization script")
+  }
+}
 
 console.debug("Build completed successfully!")

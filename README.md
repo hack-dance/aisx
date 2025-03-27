@@ -11,6 +11,25 @@ aisx is a JSX-based templating engine for generating strings with TypeScript sup
 
 > From the makers of [instructor-js](https://github.com/hack-dance/instructor-js), [zod-stream](https://github.com/hack-dance/zod-stream), and [schema-stream](https://github.com/hack-dance/schema-stream) - While our other tools focus on structured *outputs*, aisx is all about structured *inputs*. We've come full circle! 🔄
 
+## Quick Start
+
+Get started quickly with our initialization script:
+
+```bash
+# Using npm
+npx aisx-init
+
+# Using bun
+bunx aisx-init
+```
+
+The initialization script will:
+
+1. Detect your project structure (monorepo vs regular repo)
+2. Check for TypeScript and any potential React JSX conflicts
+3. Set up the necessary configuration
+4. Create example templates to get you started
+
 ## Why aisx?
 
 Managing complex prompts for LLMs using template strings or manually concatenated functions quickly becomes a nightmare. aisx provides a clean, declarative way to define structured inputs for LLMs, making your prompts:
@@ -296,9 +315,9 @@ Build complex prompts through composition, just like React components:
 
 function SystemPrompt(props: { persona: string }) {
   return (
-    <s>
+    <system>
       You are {props.persona}. Respond in a way that matches this persona.
-    </s>
+    </system>
   );
 }
 

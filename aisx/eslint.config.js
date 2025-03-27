@@ -60,7 +60,7 @@ const coreConfig = tseslint.config(
       "prefer-arrow-callback": "off",
       "prefer-const": "off"
     },
-    files: ["**/*.js?(x)", "**/*.mjs?(x)", "**/*.ts?(x)"],
+    files: ["**/*.js?(x)", "**/*.mjs?(x)", "**/*.ts?(x)", "**/*.tsx"],
     ignores: [
       ".vercel",
       ".turbo",

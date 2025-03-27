@@ -1,24 +1,35 @@
 {
   "extends": "./aisx.json",
   "include": [
-    "src/**/*.ts", 
-    "src/**/*.tsx", 
+    "src/**/*.ts",
+    "src/**/*.tsx",
     "./eslint.config.js",
     "./build.ts",
     "./publish.ts",
     "./global.d.ts",
     "*.ts",
-    "*.tsx"
+    "*.tsx",
+    "bin/**/*.ts",
+    "bin/**/*.tsx",
+    "**/*.aisx.tsx",
+    "**/*.aisx.test.tsx",
+    "**/*.aisx.ts"
   ],
-  "exclude": ["dist", "build", "node_modules"],
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": "./",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "outDir": "dist",    
-    "lib": ["ESNext"],
+    "outDir": "dist",
+    "lib": [
+      "ESNext"
+    ],
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
@@ -34,10 +45,21 @@
     "noFallthroughCasesInSwitch": true,
     "useUnknownInCatchVariables": true,
     "noPropertyAccessFromIndexSignature": false,
-    "typeRoots": ["./src/global.d.ts", "./node_modules/@types"],
+    "typeRoots": [
+      "./src/global.d.ts",
+      "./node_modules/@types"
+    ],
     "paths": {
-      "@/*": ["./src/*"],
-      "aisx/*": ["./src/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ],
+      "aisx/*": [
+        "./src/*"
+      ]
+    },
+    "jsx": "preserve",
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "aisx"
   }
 }

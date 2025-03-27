@@ -33,11 +33,15 @@
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "typings": "dist/index.d.ts",
+  "bin": {
+    "aisx": "./dist/bin/index.js"
+  },
   "files": [
     "dist",
     "README.md",
     "SETUP.md",
-    "LICENSE"
+    "LICENSE",
+    "bin"
   ],
   "exports": {
     ".": {
@@ -77,6 +81,14 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "@clack/core": "^0.4.1",
+    "@clack/prompts": "^0.10.0",
+    "@instructor-ai/instructor": "^1.7.0",
+    "openai": "^4.90.0",
+    "picocolors": "^1.1.1",
+    "zod": "^3.24.2"
   },
   "engines": {
     "node": ">=18.0.0",

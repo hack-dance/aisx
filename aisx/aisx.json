@@ -12,5 +12,5 @@
     "declaration": true,
     "emitDeclarationOnly": false
   },
-  "include": ["**/*.aisx.tsx", "**/*.aisx.test.tsx"]
+  "include": ["**/*.aisx.tsx", "**/*.aisx.test.tsx", "**/*.aisx.ts", "**/*.aisx.tsx", "*.aisx.tsx", "*.aisx.ts"]
 }
