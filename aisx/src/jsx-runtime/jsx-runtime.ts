@@ -51,7 +51,7 @@ const stringifyValue = async (value: unknown, isAttribute = false): Promise<stri
   return String(value as string | number | boolean | bigint | symbol)
 }
 
-const formatAiml = (str: string) => {
+const formataisx = (str: string) => {
   return str
     .trim()
     .replace(/>\s*,\s*</g, "><")
@@ -92,29 +92,29 @@ function jsx<P extends BaseProps>(
     if (children instanceof Promise) {
       return (async () => {
         const childrenStr = await stringifyValue(children)
-        return formatAiml(childrenStr)
+        return formataisx(childrenStr)
       })()
     }
 
     if (Array.isArray(children) && children.some(child => child instanceof Promise)) {
       return (async () => {
         const childrenStr = await stringifyValue(children)
-        return formatAiml(childrenStr)
+        return formataisx(childrenStr)
       })()
     }
 
     try {
       if (Array.isArray(children)) {
         const childrenStr = children.map(String).join("")
-        return formatAiml(childrenStr)
+        return formataisx(childrenStr)
       }
 
       const syncChildrenStr = String(children ?? "")
-      return formatAiml(syncChildrenStr)
+      return formataisx(syncChildrenStr)
     } catch {
       return (async () => {
         const childrenStr = await stringifyValue(children)
-        return formatAiml(childrenStr)
+        return formataisx(childrenStr)
       })()
     }
   }
@@ -151,7 +151,7 @@ function jsx<P extends BaseProps>(
         syncContent = propChildren ? String(propChildren) : ""
       }
 
-      return formatAiml(`<${tag}${syncAttrs}>${syncContent}</${tag}>`)
+      return formataisx(`<${tag}${syncAttrs}>${syncContent}</${tag}>`)
     } catch {
       hasPromise = true
     }
@@ -174,7 +174,7 @@ function jsx<P extends BaseProps>(
       const attrs = attrResults.filter(Boolean).join("")
       const content = propChildren ? await stringifyValue(propChildren) : ""
 
-      return formatAiml(`<${tag}${attrs}>${content}</${tag}>`)
+      return formataisx(`<${tag}${attrs}>${content}</${tag}>`)
     })()
   }
 

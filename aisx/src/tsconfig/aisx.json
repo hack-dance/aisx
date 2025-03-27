@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "aisx Config",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "aisx"
+  },
+  "include": ["**/*.aisx.tsx", "**/*.aisx.test.tsx", "**/*.aisx.ts", "**/*.aisx", "**/*.aisx.js", "**/*.aisx.test.js", "**/*.aisx.ts", "**/*.aisx", "**/*.aisx.jsx", "**/*.aisx.test.jsx"]
+}

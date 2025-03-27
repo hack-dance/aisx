@@ -1,12 +1,8 @@
 {
-  "extends": "./_aiml.json",
+  "extends": "./aisx.json",
   "include": [
     "src/**/*.ts", 
     "src/**/*.tsx", 
-    "src/**/*.aiml.tsx",
-    "src/**/*.aiml.test.tsx",
-    "test/**/*.tsx",
-    "test/**/*.ts",
     "./eslint.config.js",
     "./build.ts",
     "./publish.ts",
@@ -17,7 +13,7 @@
   "exclude": ["dist", "build", "node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDir": "./",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
@@ -40,7 +36,8 @@
     "noPropertyAccessFromIndexSignature": false,
     "typeRoots": ["./src/global.d.ts", "./node_modules/@types"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "aisx/*": ["./src/*"]
     }
   }
 }

@@ -1,17 +1,15 @@
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 import { describe, expect, test } from "bun:test"
 
-import { AsyncExample } from "./async-component.aiml"
+import { AsyncExample } from "./async-component.aisx"
 
 describe("Async Components", () => {
   test("should render async components with awaited data", async () => {
     const rendered = await AsyncExample()
 
-    // Verify structure and content
     expect(typeof rendered).toBe("string")
     expect(rendered).toContain('<user-profile id="123">')
 
-    // Check for name with looser matching - the output includes "Jane Doe" but not as a clean tag
     expect(rendered).toContain("Jane Doe")
     expect(rendered).toContain("Administrator")
     expect(rendered).toContain('<user role="guest">')

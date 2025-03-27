@@ -1,7 +1,29 @@
 {
-  "name": "aiml",
+  "name": "@hack-dance/aisx",
   "version": "0.1.0",
   "description": "A JSX-based templating engine for generating strings with TypeScript support",
+  "license": "MIT",
+  "author": "Dimitri Kennedy <dimitri@sick.email> (https://hack.dance)",
+  "homepage": "https://island.hack.dance",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hack-dance/aisx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hack-dance/aisx/issues"
+  },
+  "keywords": [
+    "jsx",
+    "template",
+    "templating",
+    "string",
+    "renderer",
+    "typescript",
+    "bun",
+    "node",
+    "ai",
+    "ml"
+  ],
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -29,12 +51,12 @@
       "require": "./dist/jsx-dev-runtime/index.js",
       "types": "./dist/jsx-dev-runtime/index.d.ts"
     },
-    "./tsconfig/aiml": {
-      "import": "./dist/tsconfig/aiml.json",
-      "require": "./dist/tsconfig/aiml.json"
+    "./tsconfig/aisx": {
+      "import": "./dist/tsconfig/aisx.json",
+      "require": "./dist/tsconfig/aisx.json"
     },
     "./types/global": {
-      "types": "./global.d.ts"
+      "types": "./dist/global.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -49,29 +71,7 @@
     "prepublishOnly": "bun run build",
     "test": "bun test"
   },
-  "keywords": [
-    "jsx",
-    "template",
-    "templating",
-    "string",
-    "renderer",
-    "typescript",
-    "bun",
-    "node",
-    "ai",
-    "ml"
-  ],
-  "author": "",
-  "license": "MIT",
   "peerDependencies": {
     "typescript": "^5.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yourusername/aiml.git"
-  },
-  "bugs": {
-    "url": "https://github.com/yourusername/aiml/issues"
-  },
-  "homepage": "https://github.com/yourusername/aiml#readme"
+  }
 }

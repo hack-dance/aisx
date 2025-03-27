@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "AIML Config",
+  "display": "aisx Config",
   "compilerOptions": {
     "jsx": "preserve",
     "jsxFactory": "jsx",
@@ -12,5 +12,5 @@
     "declaration": true,
     "emitDeclarationOnly": false
   },
-  "include": ["**/*.aiml.tsx", "**/*.aiml.test.tsx"]
+  "include": ["**/*.aisx.tsx", "**/*.aisx.test.tsx"]
 }

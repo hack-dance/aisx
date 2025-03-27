@@ -1,13 +1,13 @@
 # Enable peer dependencies
 peer = true
 
-# JSX settings for AIML files
+# JSX settings for aisx files
 jsxImportSource = "@/jsx-runtime"
 jsx = "react-jsx"
 
 # File-specific loaders
 [loader]
 ".tsx" = "tsx"
-".aiml.tsx" = "tsx"
-".aiml.test.tsx" = "tsx"
+".aisx.tsx" = "tsx"
+".aisx.test.tsx" = "tsx"
 

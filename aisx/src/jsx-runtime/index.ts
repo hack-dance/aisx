@@ -20,6 +20,7 @@ if (typeof globalThis !== "undefined") {
 
 export { jsx as jsxDEV } from "./jsx-runtime"
 export { jsx, jsxs, Fragment }
+
 export * from "./types"
 
 export function render(element: unknown): string | Promise<string> {
@@ -34,7 +35,7 @@ export function render(element: unknown): string | Promise<string> {
   return jsx(Fragment, { children: element })
 }
 
-export default (function aiml() {
+export default (function aisx() {
   return {
     render,
     jsx,

@@ -1,8 +1,8 @@
 import { describe, expect, test } from "bun:test"
 
-import { AsyncExample } from "./async-component.aiml"
+import { AsyncExample } from "./async-component.aisx"
 
-describe("Importing AIML Components", () => {
+describe("Importing aisx Components", () => {
   test("should import and use AsyncExample component", async () => {
     // Invoke the imported component as a function
     const result = await AsyncExample()

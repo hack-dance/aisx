@@ -1,9 +1,9 @@
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 import { describe, expect, test } from "bun:test"
 
-import type { Children } from "../src/jsx-runtime/types"
+import type { Children } from "aisx"
 
-describe("Direct AIML Usage", () => {
+describe("Direct aisx Usage", () => {
   test("should directly use JSX without render wrapper", async () => {
     const directJsx = <greeting>Hello World</greeting>
 

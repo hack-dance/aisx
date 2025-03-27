@@ -1,11 +1,11 @@
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 import { describe, expect, test } from "bun:test"
 
-import AIML from "../src/jsx-runtime"
+import aisx from "aisx"
 
 describe("JSX Runtime", () => {
   test("should render elements with content", () => {
-    const element = AIML.render(
+    const element = aisx.render(
       <test-element>
         <child-element>Content</child-element>
       </test-element>
@@ -15,7 +15,7 @@ describe("JSX Runtime", () => {
   })
 
   test("should render self-closing elements with attributes", () => {
-    const element = AIML.render(
+    const element = aisx.render(
       <test-element>
         <self-closing-element name="test" value={123} />
         <self-closing-element flag />
@@ -35,7 +35,7 @@ describe("JSX Runtime", () => {
       { role: "assistant", content: "Assistant message" }
     ]
 
-    const element = AIML.render(
+    const element = aisx.render(
       <conversation-context>
         {messages.map((msg, i) => (
           <context-message key={i} role={msg.role}>
@@ -73,7 +73,7 @@ describe("JSX Runtime", () => {
       ]
     }
 
-    const element = AIML.render(
+    const element = aisx.render(
       <conversation-state>
         <state-info>
           <current-step value={data.conversationState.currentStep} />
@@ -114,7 +114,7 @@ describe("JSX Runtime", () => {
       classificationReasoning: "User mentioned technical issues with the platform"
     }
 
-    const element = AIML.render(
+    const element = aisx.render(
       <intent-classification>
         <intent-details>
           <primary-intent>{intent.intent.primary}</primary-intent>
@@ -150,7 +150,7 @@ describe("JSX Runtime", () => {
       )
     }
 
-    const element = AIML.render(
+    const element = aisx.render(
       <root-element>
         <NestedComponent label="test" />
         <DeepNested />
@@ -191,7 +191,7 @@ describe("JSX Runtime", () => {
       { id: "2", data: { name: "Second", value: 200 } }
     ]
 
-    const element = AIML.render(<DataList items={items} />)
+    const element = aisx.render(<DataList items={items} />)
 
     // Strip commas for testing
     const strippedElement = typeof element === "string" ? element.replace(/,/g, "") : element
@@ -224,7 +224,7 @@ describe("JSX Runtime", () => {
       { show: true, value: "last" }
     ]
 
-    const element = AIML.render(<WrappedConditional items={items} />)
+    const element = aisx.render(<WrappedConditional items={items} />)
 
     // Strip commas and consecutive nulls (,,) for testing
     const strippedElement = typeof element === "string" ? element.replace(/,+/g, "") : element
@@ -252,7 +252,7 @@ describe("JSX Runtime", () => {
       </async-element>
     )
 
-    const element = AIML.render(
+    const element = aisx.render(
       <wrapper>
         <AsyncResult status={data.status} message={data.message} />
       </wrapper>
@@ -272,7 +272,7 @@ describe("JSX Runtime", () => {
   test("should handle deeply nested promises", async () => {
     const deepPromise = Promise.resolve(Promise.resolve(Promise.resolve("deep value")))
 
-    const element = AIML.render(<deep-test>{deepPromise}</deep-test>)
+    const element = aisx.render(<deep-test>{deepPromise}</deep-test>)
     const rendered = await element
 
     expect(rendered).toBe("<deep-test>deep value</deep-test>")
@@ -281,7 +281,7 @@ describe("JSX Runtime", () => {
   test("should handle promises that resolve to JSX", async () => {
     const jsxPromise = Promise.resolve(<inner-element>nested</inner-element>)
 
-    const element = AIML.render(<wrapper>{jsxPromise}</wrapper>)
+    const element = aisx.render(<wrapper>{jsxPromise}</wrapper>)
     const rendered = await element
 
     expect(rendered).toBe("<wrapper><inner-element>nested</inner-element></wrapper>")
@@ -290,7 +290,7 @@ describe("JSX Runtime", () => {
   test("should handle rejecting promises gracefully", async () => {
     const failingPromise = Promise.reject(new Error("Intentional test failure"))
 
-    const element = AIML.render(<error-test>{failingPromise}</error-test>)
+    const element = aisx.render(<error-test>{failingPromise}</error-test>)
     const rendered = await element
 
     expect(rendered).toBe("<error-test></error-test>")
@@ -300,7 +300,7 @@ describe("JSX Runtime", () => {
     const successPromise = Promise.resolve("success")
     const failingPromise = Promise.reject(new Error("Intentional test failure"))
 
-    const element = AIML.render(
+    const element = aisx.render(
       <mixed-promises>
         <success>{successPromise}</success>
         <failure>{failingPromise}</failure>
@@ -318,7 +318,7 @@ describe("JSX Runtime", () => {
     const attrPromise = Promise.resolve("attr-value")
     const childPromise = Promise.resolve("child-value")
 
-    const element = AIML.render(
+    const element = aisx.render(
       <complex-element attr={attrPromise}>{childPromise}</complex-element>
     )
     const rendered = await element
@@ -329,7 +329,7 @@ describe("JSX Runtime", () => {
   test("should handle arrays of promises", async () => {
     const promises = [Promise.resolve("first"), Promise.resolve("second"), Promise.resolve("third")]
 
-    const element = AIML.render(<array-test>{promises}</array-test>)
+    const element = aisx.render(<array-test>{promises}</array-test>)
     const rendered = await element
 
     expect(rendered).toBe("<array-test>firstsecondthird</array-test>")
@@ -338,7 +338,7 @@ describe("JSX Runtime", () => {
   test("should handle mixed arrays of values and promises", async () => {
     const mixed = ["static", Promise.resolve("async"), "123", Promise.resolve("456")]
 
-    const element = AIML.render(<mixed-array>{mixed}</mixed-array>)
+    const element = aisx.render(<mixed-array>{mixed}</mixed-array>)
     const rendered = await element
 
     expect(rendered).toBe("<mixed-array>staticasync123456</mixed-array>")
@@ -348,7 +348,7 @@ describe("JSX Runtime", () => {
     const asyncTrue = Promise.resolve(true)
     const asyncFalse = Promise.resolve(false)
 
-    const element = AIML.render(
+    const element = aisx.render(
       <boolean-test
         syncTrue={true}
         syncFalse={false}
@@ -367,7 +367,7 @@ describe("JSX Runtime", () => {
     const date = new Date("2023-01-01T00:00:00Z")
     const asyncDate = Promise.resolve(new Date("2023-12-31T23:59:59Z").toISOString())
 
-    const element = AIML.render(<date-test date={date}>{asyncDate}</date-test>)
+    const element = aisx.render(<date-test date={date}>{asyncDate}</date-test>)
 
     const rendered = await element
 
@@ -383,7 +383,7 @@ describe("JSX Runtime", () => {
       nested: { prop: "value" }
     }
 
-    const element = AIML.render(<object-test data={complexObject} />)
+    const element = aisx.render(<object-test data={complexObject} />)
     const rendered = await element
 
     expect(rendered).toContain("<object-test")

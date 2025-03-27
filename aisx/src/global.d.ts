@@ -2,7 +2,10 @@ import {
   JSXElement,
   JSXElementAttributesProperty,
   JSXElementChildrenAttribute,
-  JSXIntrinsicElements
+  JSXFragment,
+  JSXIntrinsicElements,
+  Component,
+  BaseProps
 } from "./jsx-runtime/types"
 
 declare global {
@@ -11,6 +14,7 @@ declare global {
     type Element = JSXElement
     type ElementAttributesProperty = JSXElementAttributesProperty
     type ElementChildrenAttribute = JSXElementChildrenAttribute
+    type Fragment = string | Component<BaseProps>
   }
 }
 

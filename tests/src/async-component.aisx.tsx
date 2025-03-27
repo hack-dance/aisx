@@ -1,6 +1,6 @@
-/** @jsxImportSource aiml */
-import type { Children } from "../src/jsx-runtime/types"
-
+/** @jsxImportSource aisx */
+import type { Children } from "aisx"
+import aisx from "aisx"
 async function fetchUserData(userId: string): Promise<{ name: string; role: string; id: string }> {
   await new Promise(resolve => setTimeout(resolve, 100))
   return { name: "Jane Doe", role: "Administrator", id: userId }
@@ -31,11 +31,11 @@ export async function AsyncExample() {
   return (
     <Container
       children={
-        <Fragment>
+        <aisx.Fragment>
           <UserProfile userId="123" />
           <AsyncDataAttribute />
           <data-value>{Promise.resolve("This is async content")}</data-value>
-        </Fragment>
+        </aisx.Fragment>
       }
     />
   )

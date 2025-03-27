@@ -1,10 +1,19 @@
-# AIML - AI Markup Language
+<p align="center">
+<img src="./public/aisx.svg" style="max-width:400px;" />
+</p>
+<p align="center">
+_aisx - AI Markup Language_
+</p>
 
-AIML is a JSX-based templating engine for generating strings with TypeScript support. It provides a React-like syntax for creating, composing, and managing complex LLM prompts and other structured text templates.
+---
 
-## Why AIML?
+aisx is a JSX-based templating engine for generating strings with TypeScript support. It provides a React-like syntax for creating, composing, and managing complex LLM prompts and other structured text templates.
 
-Managing complex prompts for LLMs using template strings or manually concatenated functions quickly becomes a nightmare. AIML provides a clean, declarative way to define structured inputs for LLMs, making your prompts:
+> From the makers of [instructor-js](https://github.com/hack-dance/instructor-js), [zod-stream](https://github.com/hack-dance/zod-stream), and [schema-stream](https://github.com/hack-dance/schema-stream) - While our other tools focus on structured *outputs*, aisx is all about structured *inputs*. We've come full circle! 🔄
+
+## Why aisx?
+
+Managing complex prompts for LLMs using template strings or manually concatenated functions quickly becomes a nightmare. aisx provides a clean, declarative way to define structured inputs for LLMs, making your prompts:
 
 - Composable and reusable with component-based architecture
 - Type-safe with full TypeScript support
@@ -19,27 +28,27 @@ Managing complex prompts for LLMs using template strings or manually concatenate
 - Full TypeScript support out of the box
 - Compatible with both Bun and Node.js
 - Simple API with zero dependencies
-- Supports `.aiml.tsx` file extension
+- Supports `.aisx.tsx` file extension
 
 ## Installation
 
 ```bash
 # Using npm
-npm install aiml
+npm install @hack-dance/aisx
 
 # Using yarn
-yarn add aiml
+yarn add @hack-dance/aisx
 
 # Using pnpm
-pnpm add aiml
+pnpm add @hack-dance/aisx
 
 # Using bun
-bun add aiml
+bun add @hack-dance/aisx
 ```
 
 ## Setup
 
-AIML can be set up in various ways depending on your project requirements. Here are the recommended approaches:
+aisx can be set up in various ways depending on your project requirements. Here are the recommended approaches:
 
 ### Standalone Setup (Recommended)
 
@@ -47,53 +56,53 @@ This setup is ideal for projects that don't use React or other JSX libraries.
 
 1. **Configure TypeScript**
 
-   Create or update your `tsconfig.json` to extend AIML's configuration:
+   Create or update your `tsconfig.json` to extend aisx's configuration:
 
    ```json
    {
-     "extends": "aiml/tsconfig/aiml",
+     "extends": "aisx/tsconfig/aisx",
      "compilerOptions": {
        // Your additional compiler options
      }
    }
    ```
 
-   The AIML tsconfig preset includes:
+   The aisx tsconfig preset includes:
    - `jsx: "preserve"`
    - `jsxFactory: "jsx"`
    - `jsxFragmentFactory: "Fragment"`
-   - `jsxImportSource: "aiml"`
+   - `jsxImportSource: "aisx"`
 
 2. **For Bun Users**
 
    Add the following to your `bunfig.toml`:
 
    ```toml
-   # JSX settings for AIML files
-   jsxImportSource = "aiml"
+   # JSX settings for aisx files
+   jsxImportSource = "aisx"
 
    # File-specific loaders
    [loader]
    ".tsx" = "tsx"
-   ".aiml.tsx" = "tsx"
-   ".aiml.test.tsx" = "tsx"
+   ".aisx.tsx" = "tsx"
+   ".aisx.test.tsx" = "tsx"
    ```
 
 3. **File Naming Convention**
 
-   Name your AIML template files with `.aiml.tsx` extension:
+   Name your aisx template files with `.aisx.tsx` extension:
 
    ```
-   template.aiml.tsx
-   myPrompt.aiml.tsx
+   template.aisx.tsx
+   myPrompt.aisx.tsx
    ```
 
 ### Pragma-Based Setup
 
-If you can't or don't want to configure TypeScript globally, you can use pragma comments at the top of each AIML file:
+If you can't or don't want to configure TypeScript globally, you can use pragma comments at the top of each aisx file:
 
 ```tsx
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 
 export function MyTemplate() {
   return (
@@ -109,8 +118,8 @@ export function MyTemplate() {
 ### Basic Example
 
 ```tsx
-// template.aiml.tsx
-/** @jsxImportSource aiml */
+// template.aisx.tsx
+/** @jsxImportSource aisx */
 
 export function Greeting(props: { name: string }) {
   return (
@@ -132,30 +141,39 @@ export function AIPrompt(props: { instructions: string, role: string }) {
 
 ```ts
 // index.ts
-import { Greeting, AIPrompt } from './template.aiml';
+import { Greeting, AIPrompt } from './template.aisx';
 
-// Render the greeting
-const greeting = <Greeting name="AIML" />;
+// There are multiple ways to use aisx components:
+
+// 1. Function call (simplest approach)
+const greeting = Greeting({ name: "aisx" });
 console.log("Greeting Template:");
 console.log(greeting);
 
-// Render the AI prompt
+// 2. JSX syntax (requires JSX support in your project)
 const prompt = <AIPrompt 
   role="assistant" 
   instructions="You are a helpful AI assistant."
 />;
 console.log("AI Prompt Template:");
 console.log(prompt);
+
+// 3. Using the render function (useful for async components)
+import aisx from 'aisx';
+const renderedPrompt = aisx.render(<AIPrompt 
+  role="assistant" 
+  instructions="You are a helpful AI assistant."
+/>);
 ```
 
 ### Advanced Features
 
 #### Async Components
 
-AIML supports async components, making it possible to dynamically generate content based on external data:
+aisx supports async components, making it possible to dynamically generate content based on external data:
 
 ```tsx
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 
 // Async component that fetches data
 export async function DynamicPrompt(props: { userId: string }) {
@@ -169,13 +187,102 @@ export async function DynamicPrompt(props: { userId: string }) {
   );
 }
 
-// Usage
+// Usage options:
+// 1. Await the JSX expression
 const dynamicPrompt = await <DynamicPrompt userId="123" />;
-or 
-const dynamicPrompt = await aiml.render(<DynamicPrompt userId="123" />;)
-or 
-const dynamicPrompt = DynamicPrompt({ userId: "123" })
 
+// 2. Use the render function
+const dynamicPrompt = await aisx.render(<DynamicPrompt userId="123" />);
+
+// 3. Direct function call (returns a Promise)
+const dynamicPrompt = await DynamicPrompt({ userId: "123" });
+```
+
+#### Real-World Example: Context Builder
+
+Here's how you might use aisx to build a complex context for an LLM call:
+
+```tsx
+/** @jsxImportSource aisx */
+
+// Component to format user profile data
+async function UserContext({ userId }: { userId: string }) {
+  const user = await fetchUserProfile(userId);
+  const recentOrders = await fetchRecentOrders(userId);
+  
+  return (
+    <user_context>
+      <profile>
+        <name>{user.fullName}</name>
+        <account_type>{user.accountType}</account_type>
+        <membership_since>{user.createdAt}</membership_since>
+        <preferences>{JSON.stringify(user.preferences)}</preferences>
+      </profile>
+      
+      <recent_orders>
+        {recentOrders.map(order => (
+          <order id={order.id} date={order.date}>
+            <status>{order.status}</status>
+            <items>{order.items.map(item => item.name).join(", ")}</items>
+          </order>
+        ))}
+      </recent_orders>
+    </user_context>
+  );
+}
+
+// Component to build product recommendations
+async function ProductRecommendations({ userId, category }: { userId: string; category: string }) {
+  const recommendations = await generateRecommendations(userId, category);
+  
+  return (
+    <recommendations>
+      {recommendations.map(product => (
+        <product id={product.id}>
+          <name>{product.name}</name>
+          <match_score>{product.score}</match_score>
+          <key_features>{product.features.join(", ")}</key_features>
+        </product>
+      ))}
+    </recommendations>
+  );
+}
+
+// Main prompt builder that composes multiple context sources
+export async function CustomerSupportPrompt({ 
+  userId, 
+  query,
+  productCategory
+}: { 
+  userId: string; 
+  query: string;
+  productCategory?: string;
+}) {
+  return (
+    <prompt>
+      <system>
+        <instructions>
+          You are a helpful customer support assistant for our e-commerce store.
+          Use the provided context to answer customer queries accurately.
+          If you don't know the answer, admit it and offer to connect them with a human agent.
+        </instructions>
+      </system>
+      
+      <context>
+        <UserContext userId={userId} />
+        
+        {productCategory && (
+          <ProductRecommendations userId={userId} category={productCategory} />
+        )}
+        
+        <current_query>
+          <timestamp>{new Date().toISOString()}</timestamp>
+          <query_text>{query}</query_text>
+        </current_query>
+      </context>
+    </prompt>
+  );
+}
 ```
 
 #### Composition and Reuse
@@ -183,13 +290,13 @@ const dynamicPrompt = DynamicPrompt({ userId: "123" })
 Build complex prompts through composition, just like React components:
 
 ```tsx
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 
 function SystemPrompt(props: { persona: string }) {
   return (
-    <system>
+    <s>
       You are {props.persona}. Respond in a way that matches this persona.
-    </system>
+    </s>
   );
 }
 
@@ -229,7 +336,7 @@ export function ComplexPrompt() {
 Implement dynamic prompts based on conditions:
 
 ```tsx
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 
 export function ConditionalPrompt(props: { 
   skill: "beginner" | "intermediate" | "advanced",
@@ -237,7 +344,7 @@ export function ConditionalPrompt(props: {
 }) {
   return (
     <prompt>
-      <system>You are a coding tutor.</system>
+      <s>You are a coding tutor.</s>
       <instructions>
         {props.skill === "beginner" && (
           <beginner>
@@ -264,9 +371,9 @@ export function ConditionalPrompt(props: {
 
 ## Customizing JSX Elements
 
-Just like with React, you can compose AIML components, execute code, etc.
+Just like with React, you can compose aisx components, execute code, etc.
 
-AIML also allows you to define custom JSX elements with TypeScript interfaces. You can extend the JSX namespace in your own declaration files:
+aisx also allows you to define custom JSX elements with TypeScript interfaces. You can extend the JSX namespace in your own declaration files:
 
 ```typescript
 // custom.d.ts
@@ -282,10 +389,10 @@ declare namespace JSX {
 }
 ```
 
-With this configuration, you can use your custom elements in AIML templates with built-in type checking:
+With this configuration, you can use your custom elements in aisx templates with built-in type checking:
 
 ```tsx
-/** @jsxImportSource aiml */
+/** @jsxImportSource aisx */
 
 export function ThinkingPrompt() {
   return (
@@ -299,14 +406,14 @@ export function ThinkingPrompt() {
 }
 ```
 
-## Testing AIML Components
+## Testing aisx Components
 
-You can unit test your AIML components just like you would test React components:
+You can unit test your aisx components just like you would test React components:
 
 ```tsx
 // prompt.test.tsx
 import { expect, test } from 'bun:test';
-import { GreetingPrompt } from './prompt.aiml';
+import { GreetingPrompt } from './prompt.aisx';
 
 test('GreetingPrompt renders correctly', async () => {
   const result = <GreetingPrompt name="Tester" />;
@@ -319,15 +426,19 @@ test('GreetingPrompt renders correctly', async () => {
 
 ### Integration with React Projects
 
-**Not Recommended**: Running AIML alongside React in the same project can lead to JSX runtime conflicts and type checking issues. It's possible to do in situations where its really needed but the recommended approach is to justt keep your templates in a seperate package that doesn't need to transpile react too.
+**Not Recommended**: Running aisx alongside React in the same project can lead to JSX runtime conflicts and type checking issues. It's possible to do in situations where it's really needed, but the recommended approach is to keep your templates in a separate package that doesn't need to transpile React too.
 
-For projects that require both React UI components and AIML templates, consider one of these approaches:
+For projects that require both React UI components and aisx templates, consider one of these approaches:
 
-1. **Separate Packages**: Keep AIML templates in a separate package from your React components.
+1. **Separate Packages**: Keep aisx templates in a separate package from your React components.
+
+### Output Formats
+
+While the default output is an XML-like format, you can create wrapper components to output in different formats like Markdown or plain text without the element wrappers.
 
 ## Development
 
-For contributors looking to develop AIML further:
+For contributors looking to develop aisx further:
 
 1. Clone the repository
 2. Install dependencies with `bun install`

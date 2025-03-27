@@ -1,10 +1,10 @@
 {
-  "name": "aiml-root",
+  "name": "aisx-root",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "bun build",
-    "dev": "bun run build --watch ./aiml/src"
+    "dev": "bun run build --watch ./aisx/src"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",

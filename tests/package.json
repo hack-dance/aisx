@@ -1,12 +1,12 @@
 {
-  "name": "aisx-examples-basic",
+  "name": "aisx-tests",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "bun run ./src/index.ts"
+    "test": "bun test"
   },
   "dependencies": {
-    "aisx": "file:../../aisx"
+    "aisx": "file:../aisx"
   },
   "devDependencies": {
     "typescript": "^5.8.2"

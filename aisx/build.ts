@@ -12,7 +12,7 @@ await Bun.build({
   format: "esm",
   target: "node",
   sourcemap: "external",
-  banner: "/** @jsxImportSource aiml */",
+  banner: "/** @jsxImportSource aisx */",
   minify: {
     whitespace: true,
     syntax: true
@@ -23,9 +23,10 @@ await Bun.build({
   entrypoints: [
     "./src/jsx-runtime/index.ts",
     "./src/jsx-runtime/jsx-runtime.ts",
+    "./src/jsx-runtime/types.ts",
     "./src/jsx-runtime/jsx-dev-runtime.ts"
   ],
-  banner: "/** @jsxImportSource aiml */",
+  banner: "/** @jsxImportSource aisx */",
   outdir: "./dist/jsx-runtime",
   format: "esm",
   target: "node",
@@ -39,7 +40,7 @@ await Bun.build({
 await Bun.build({
   entrypoints: ["./src/jsx-dev-runtime/index.ts"],
   outdir: "./dist/jsx-dev-runtime",
-  banner: "/** @jsxImportSource aiml */",
+  banner: "/** @jsxImportSource aisx */",
   format: "esm",
   target: "node",
   sourcemap: "external",
@@ -54,7 +55,7 @@ console.debug("Building CommonJS modules...")
 await Bun.build({
   entrypoints: ["./src/index.ts"],
   outdir: "./dist/cjs",
-  banner: "/** @jsxImportSource aiml */",
+  banner: "/** @jsxImportSource aisx */",
   format: "cjs",
   target: "node",
   sourcemap: "external",
@@ -68,9 +69,10 @@ await Bun.build({
   entrypoints: [
     "./src/jsx-runtime/index.ts",
     "./src/jsx-runtime/jsx-runtime.ts",
+    "./src/jsx-runtime/types.ts",
     "./src/jsx-runtime/jsx-dev-runtime.ts"
   ],
-  banner: "/** @jsxImportSource aiml */",
+  banner: "/** @jsxImportSource aisx */",
   outdir: "./dist/cjs/jsx-runtime",
   format: "cjs",
   target: "node",
@@ -84,7 +86,7 @@ await Bun.build({
 await Bun.build({
   entrypoints: ["./src/jsx-dev-runtime/index.ts"],
   outdir: "./dist/cjs/jsx-dev-runtime",
-  banner: "/** @jsxImportSource aiml */",
+  banner: "/** @jsxImportSource aisx */",
   format: "cjs",
   target: "node",
   sourcemap: "external",
@@ -98,8 +100,8 @@ console.debug("Copying TypeScript configuration...")
 
 await $`mkdir -p ./dist/tsconfig ./dist/cjs/tsconfig`
 
-await cp("./src/tsconfig/aiml.json", "./dist/tsconfig/aiml.json")
-await cp("./src/tsconfig/aiml.json", "./dist/cjs/tsconfig/aiml.json")
+await cp("./src/tsconfig/aisx.json", "./dist/tsconfig/aisx.json")
+await cp("./src/tsconfig/aisx.json", "./dist/cjs/tsconfig/aisx.json")
 
 console.debug("Generating TypeScript declarations...")
 await $`tsc --emitDeclarationOnly --declaration --outDir dist`

@@ -1,5 +1,5 @@
 /**
- * Core type definitions for AIML
+ * Core type definitions for aisx
  */
 
 /**
