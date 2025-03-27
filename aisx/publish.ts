@@ -2,9 +2,6 @@ import { readFile, writeFile } from "node:fs/promises"
 import { join } from "node:path"
 import { $ } from "bun"
 
-/**
- * Interactive confirmation prompt
- */
 async function confirm(message: string): Promise<boolean> {
   process.stdout.write(`${message} (y/N): `)
 
@@ -16,7 +13,6 @@ async function confirm(message: string): Promise<boolean> {
   return false
 }
 
-// Header display
 console.log("\n🚀 AISX Package Publisher 🚀")
 console.log("============================\n")
 console.log("This tool will help you publish a new version of aisx")
@@ -24,7 +20,6 @@ console.log("It will run tests, build the package, and prepare it for publishing
 console.log("💡 DRY RUN MODE is enabled by default (no actual publishing will occur)")
 console.log("You will be prompted before any changes are made\n")
 
-// Determine version bump type
 const args = process.argv.slice(2)
 const versionArg = args[0] || "patch"
 
@@ -40,11 +35,9 @@ if (
 
 console.log(`📋 Version bump type: ${versionArg}`)
 
-// Check current package info
 const currentPackageJson = JSON.parse(await readFile("package.json", "utf-8"))
 console.log(`📦 Current package: ${currentPackageJson.name}@${currentPackageJson.version}`)
 
-// Ensure clean git status
 const gitStatus = await $`git status --porcelain`.text()
 if (gitStatus.trim()) {
   console.error(
@@ -62,7 +55,6 @@ if (gitStatus.trim()) {
   console.log("⚠️ Continuing with uncommitted changes...\n")
 }
 
-// Run tests to ensure everything is working
 if (await confirm("Run tests before publishing?")) {
   console.log("\n🧪 Running tests...")
   const testResult = await $`bun test`
@@ -83,7 +75,6 @@ if (await confirm("Run tests before publishing?")) {
   console.log("⚠️ Skipping tests...\n")
 }
 
-// Build the package
 console.log("🔨 Building package...")
 const buildResult = await $`bun run build`
 
@@ -94,10 +85,8 @@ if (buildResult.exitCode !== 0) {
 
 console.log("✅ Build successful!\n")
 
-// Preview version bump
 let newVersion = ""
 try {
-  // Get what the new version would be without actually bumping
   const output = await $`npm --no-git-tag-version version ${versionArg} --dry-run`.text()
   newVersion = output.trim().replace(/^v/, "")
   console.log(`🏷️ New version will be: ${newVersion}`)
@@ -106,17 +95,14 @@ try {
   process.exit(1)
 }
 
-// Confirmation before proceeding
 if (!(await confirm(`Ready to prepare ${currentPackageJson.name}@${newVersion} for publishing?`))) {
   console.log("🛑 Publish aborted.")
   process.exit(0)
 }
 
-// Bump version
 console.log(`\n📝 Bumping version to ${newVersion}...`)
 await $`npm version ${versionArg} --no-git-tag-version`
 
-// Read the new version from package.json to ensure accuracy
 const packageJson = JSON.parse(await readFile("package.json", "utf-8"))
 newVersion = packageJson.version
 console.log(`✅ Version bumped to ${newVersion}\n`)
@@ -139,7 +125,6 @@ try {
   console.log("⚠️ Warning: Some documentation files could not be copied\n")
 }
 
-// Create dist package.json
 console.log("📦 Creating distribution package.json...")
 const distPackageJson = {
   name: packageJson.name,
@@ -160,7 +145,6 @@ const distPackageJson = {
   engines: packageJson.engines
 }
 
-// Copy exports and fix paths
 if (packageJson.exports) {
   for (const [key, value] of Object.entries(packageJson.exports)) {
     distPackageJson.exports[key] = {}
@@ -183,7 +167,6 @@ if (packageJson.exports) {
 await writeFile(join("dist", "package.json"), JSON.stringify(distPackageJson, null, 2))
 console.log("✅ Distribution package.json created\n")
 
-// Git operations
 console.log("🔄 Git operations:")
 if (await confirm("Commit version bump to git?")) {
   console.log("📝 Committing version bump...")
@@ -200,14 +183,12 @@ if (await confirm("Commit version bump to git?")) {
   console.log("⚠️ Skipping git commit\n")
 }
 
-// Publish preview
 console.log("📦 PUBLISH PREVIEW:")
 console.log(`Package: ${packageJson.name}@${newVersion}`)
 console.log(`Repository: ${packageJson.repository?.url || "Not specified"}`)
 console.log(`License: ${packageJson.license}`)
 console.log("\n⚠️ NO CHANGES HAVE BEEN PUBLISHED YET ⚠️\n")
 
-// Final options for actual publishing
 console.log("📋 NEXT STEPS:")
 console.log(`To publish version ${newVersion} to npm, you need to:`)
 console.log("\n1. Check the dist/ directory to verify everything is correct")
@@ -220,7 +201,6 @@ console.log("\n3. Push git changes:")
 console.log(`   git push origin v${newVersion}  # Push the tag`)
 console.log("   git push                       # Push the commit")
 
-// Dry-run publish
 if (await confirm("\nWould you like to do a dry-run publish to verify everything?")) {
   console.log("\n🧪 Running npm publish --dry-run...")
   const publishResult = await $`cd dist && npm publish --dry-run`
