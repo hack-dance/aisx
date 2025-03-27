@@ -1,0 +1,68 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnType": false,
+  "editor.formatOnPaste": false,
+  "editor.trimAutoWhitespace": true,
+  "editor.formatOnSave": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "[html]": {},
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.autoIndent": "advanced"
+  },
+  "[yaml]": {
+    "editor.autoIndent": "advanced",
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    "editor.formatOnPaste": true
+  },
+  "typescript.tsserver.maxTsServerMemory": 8192,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.validate.enable": true,
+  "eslint.execArgv": ["--max_old_space_size=8192"],
+  "eslint.validate": ["javascript", "typescript", "typescriptreact"],
+  "eslint.workingDirectories": [
+    { "mode": "auto" },
+    {
+      "pattern": "./apps/*"
+    },
+    {
+      "pattern": "./packages/*"
+    },
+    {
+      "pattern": "./public-packages/*"
+    },
+    {
+      "pattern": "./services/*"
+    },
+    {
+      "pattern": "./queues/*"
+    }
+  ],
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "css.validate": false,
+  "editor.inlineSuggest.enabled": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

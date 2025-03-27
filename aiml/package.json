@@ -1,0 +1,77 @@
+{
+  "name": "aiml",
+  "version": "0.1.0",
+  "description": "A JSX-based templating engine for generating strings with TypeScript support",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "SETUP.md",
+    "global.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./jsx-runtime": {
+      "import": "./dist/jsx-runtime/index.js",
+      "require": "./dist/jsx-runtime/index.js",
+      "types": "./dist/jsx-runtime/index.d.ts"
+    },
+    "./jsx-dev-runtime": {
+      "import": "./dist/jsx-dev-runtime/index.js",
+      "require": "./dist/jsx-dev-runtime/index.js",
+      "types": "./dist/jsx-dev-runtime/index.d.ts"
+    },
+    "./tsconfig/aiml": {
+      "import": "./dist/tsconfig/aiml.json",
+      "require": "./dist/tsconfig/aiml.json"
+    },
+    "./types/global": {
+      "types": "./global.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "bun ./build.ts",
+    "publish:npm": "bun build-scripts/publish.ts",
+    "publish:patch": "bun build-scripts/publish.ts patch",
+    "publish:minor": "bun build-scripts/publish.ts minor",
+    "publish:major": "bun build-scripts/publish.ts major",
+    "lint:check": "TIMING=1 eslint src --max-warnings=0",
+    "lint:fix": "eslint --fix src",
+    "prepublishOnly": "bun run build",
+    "test": "bun test"
+  },
+  "keywords": [
+    "jsx",
+    "template",
+    "templating",
+    "string",
+    "renderer",
+    "typescript",
+    "bun",
+    "node",
+    "ai",
+    "ml"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/aiml.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/aiml/issues"
+  },
+  "homepage": "https://github.com/yourusername/aiml#readme"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "AIML Config",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "@/jsx-runtime",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": false
+  },
+  "include": ["**/*.aiml.tsx", "**/*.aiml.test.tsx"]
+}

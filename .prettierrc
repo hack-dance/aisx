@@ -1,0 +1,12 @@
+{
+  "endOfLine": "lf",
+  "semi": false,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "singleQuote": false,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "proseWrap": "never",
+  "quoteProps": "consistent",
+  "experimentalTernaries": true
+}

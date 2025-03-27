@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "AIML Config",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "jsxFactory": "jsx",
+    "jsxFragmentFactory": "Fragment",
+    "jsxImportSource": "aiml"
+  },
+  "include": ["**/*.aiml.tsx", "**/*.aiml.test.tsx", "**/*.aiml.ts", "**/*.aiml", "**/*.aiml.js", "**/*.aiml.test.js", "**/*.aiml.ts", "**/*.aiml", "**/*.aiml.jsx", "**/*.aiml.test.jsx"]
+}
