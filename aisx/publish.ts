@@ -1,7 +1,5 @@
-import { readFile, writeFile } from "node:fs/promises"
-import { join } from "node:path"
+import { cp, readFile } from "node:fs/promises"
 import { $ } from "bun"
-
 async function confirm(message: string): Promise<boolean> {
   process.stdout.write(`${message} (y/N): `)
 
@@ -85,125 +83,31 @@ if (buildResult.exitCode !== 0) {
 
 console.log("✅ Build successful!\n")
 
-let newVersion = ""
-try {
-  const output = await $`npm --no-git-tag-version version ${versionArg} --dry-run`.text()
-  newVersion = output.trim().replace(/^v/, "")
-  console.log(`🏷️ New version will be: ${newVersion}`)
-} catch (error) {
-  console.error("❌ Failed to determine new version")
-  process.exit(1)
-}
-
-if (!(await confirm(`Ready to prepare ${currentPackageJson.name}@${newVersion} for publishing?`))) {
+if (!(await confirm(`Ready to prepare ${versionArg} for ${currentPackageJson.name}?`))) {
   console.log("🛑 Publish aborted.")
   process.exit(0)
 }
 
-console.log(`\n📝 Bumping version to ${newVersion}...`)
+console.log(`\n📝 Bumping version with ${versionArg} for ${currentPackageJson.name}...`)
 await $`npm version ${versionArg} --no-git-tag-version`
 
 const packageJson = JSON.parse(await readFile("package.json", "utf-8"))
-newVersion = packageJson.version
-console.log(`✅ Version bumped to ${newVersion}\n`)
+console.log(`✅ Version bumped to ${packageJson.version}\n`)
 
-console.log("📋 Copying documentation files...")
-try {
-  const copyFile = async (file: string) => {
-    try {
-      await $`cp ${file} dist/`
-    } catch {
-      console.log(`⚠️ Warning: Could not find ${file}`)
-
-      throw new Error(`Could not find ${file}`)
-    }
-  }
-
-  await Promise.all([copyFile("../README.md"), copyFile("../SETUP.md"), copyFile("../LICENSE")])
-  console.log("✅ Documentation files copied\n")
-} catch (error) {
-  console.log("⚠️ Warning: Some documentation files could not be copied\n")
-}
-
-console.log("📦 Creating distribution package.json...")
-const distPackageJson = {
-  name: packageJson.name,
-  version: newVersion,
-  description: packageJson.description,
-  type: packageJson.type,
-  main: "./index.js",
-  module: "./index.js",
-  types: "./index.d.ts",
-  exports: {} as Record<string, any>,
-  keywords: packageJson.keywords,
-  author: packageJson.author,
-  license: packageJson.license,
-  peerDependencies: packageJson.peerDependencies,
-  repository: packageJson.repository,
-  bugs: packageJson.bugs,
-  homepage: packageJson.homepage,
-  engines: packageJson.engines
-}
-
-if (packageJson.exports) {
-  for (const [key, value] of Object.entries(packageJson.exports)) {
-    distPackageJson.exports[key] = {}
-
-    if (typeof value === "object" && value !== null) {
-      for (const [format, path] of Object.entries(value)) {
-        if (typeof path === "string" && path.startsWith("./dist/")) {
-          ;(distPackageJson.exports[key] as Record<string, string>)[format] = path.replace(
-            "./dist/",
-            "./"
-          )
-        } else {
-          ;(distPackageJson.exports[key] as Record<string, string>)[format] = path as string
-        }
-      }
-    }
-  }
-}
-
-await writeFile(join("dist", "package.json"), JSON.stringify(distPackageJson, null, 2))
-console.log("✅ Distribution package.json created\n")
-
-console.log("🔄 Git operations:")
-if (await confirm("Commit version bump to git?")) {
-  console.log("📝 Committing version bump...")
-  await $`git add package.json`
-  await $`git commit -m "chore: bump version to ${newVersion}"`
-  console.log("✅ Version bump committed\n")
-
-  if (await confirm("Create git tag for this version?")) {
-    console.log(`🏷️ Creating git tag v${newVersion}...`)
-    await $`git tag v${newVersion}`
-    console.log("✅ Git tag created\n")
-  }
-} else {
-  console.log("⚠️ Skipping git commit\n")
-}
+console.log("📦 Copying documentation files...")
+await cp("../README.md", "./README.md")
+await cp("../SETUP.md", "./SETUP.md")
+console.log("✅ Documentation files copied\n")
 
 console.log("📦 PUBLISH PREVIEW:")
-console.log(`Package: ${packageJson.name}@${newVersion}`)
+console.log(`Package: ${packageJson.name}@${packageJson.version}`)
 console.log(`Repository: ${packageJson.repository?.url || "Not specified"}`)
 console.log(`License: ${packageJson.license}`)
 console.log("\n⚠️ NO CHANGES HAVE BEEN PUBLISHED YET ⚠️\n")
 
-console.log("📋 NEXT STEPS:")
-console.log(`To publish version ${newVersion} to npm, you need to:`)
-console.log("\n1. Check the dist/ directory to verify everything is correct")
-console.log("2. Run one of the following commands:")
-console.log("\n   To publish to npm (default scope):")
-console.log("   cd dist && npm publish")
-console.log("\n   To publish to npm (public scope):")
-console.log("   cd dist && npm publish --access public")
-console.log("\n3. Push git changes:")
-console.log(`   git push origin v${newVersion}  # Push the tag`)
-console.log("   git push                       # Push the commit")
-
 if (await confirm("\nWould you like to do a dry-run publish to verify everything?")) {
   console.log("\n🧪 Running npm publish --dry-run...")
-  const publishResult = await $`cd dist && npm publish --dry-run`
+  const publishResult = await $`npm publish --dry-run`
   console.log(publishResult.stdout.toString())
 
   if (publishResult.exitCode === 0) {

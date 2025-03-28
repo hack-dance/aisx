@@ -1,6 +1,7 @@
 /** @jsxImportSource aisx */
 
 import aisx from "aisx"
+import { Children } from "aisx"
 
 interface GreetingProps {
   name: string
@@ -18,10 +19,10 @@ export function Greeting({ name, role = "user" }: GreetingProps) {
 
 export function SystemPrompt({ model, instructions }: { model: string; instructions: string }) {
   return (
-    <s>
+    <sytem>
       <model>{model}</model>
       <instructions>{instructions}</instructions>
-    </s>
+    </sytem>
   )
 }
 
@@ -68,34 +69,34 @@ export async function DynamicContext() {
   )
 }
 
-export function AIPrompt({ model, instructions }: { model: string; instructions: string }) {
+export async function AIPrompt({
+  model,
+  instructions,
+  children
+}: {
+  model: string
+  instructions: string
+  children?: Children
+}) {
   return (
-    <aisx.Fragment>
+    <prompt-instruction>
       <SystemPrompt model={model} instructions={instructions} />
       <Greeting name="User" role="human" />
       <DynamicContext />
-    </aisx.Fragment>
+      {children}
+    </prompt-instruction>
   )
 }
 
-export function RenderMixedAsync() {
+export async function RenderMixedAsync() {
   console.log("Dynamic mixed Context (Async):")
-  DynamicContext().then(result => {
-    console.log(result)
-    console.log("\n")
 
-    return aisx
-      .render(
-        <AIPrompt
-          model="GPT-4"
-          instructions="You are a helpful assistant that provides concise responses."
-        >
-          {result}
-        </AIPrompt>
-      )
-      .then(rendered => {
-        console.log("Complete Rendered Template:")
-        console.log(rendered)
-      })
-  })
+  return (
+    <AIPrompt
+      model="GPT-4"
+      instructions="You are a helpful assistant that provides concise responses."
+    >
+      <DynamicContext />
+    </AIPrompt>
+  )
 }

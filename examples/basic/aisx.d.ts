@@ -1,1 +1,1 @@
-/// <reference types="aisx/types/global" />
+/// <reference types="aisx/global" />

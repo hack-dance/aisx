@@ -1,19 +1,10 @@
-import {
-  JSXElement,
-  JSXElementAttributesProperty,
-  JSXElementChildrenAttribute,
-  JSXFragment,
-  JSXIntrinsicElements,
-  Component,
-  BaseProps,
-  BasePropsWithChildren,
-  Children
-} from "./jsx-runtime/types"
+import { JSXFunction, Fragment } from './types';
+
+import { BasePropsWithChildren, Children } from "./types"
 
 /**
- * Global TypeScript JSX declarations for aisx
+ * TypeScript JSX declarations for aisx
  * This file provides TypeScript with the necessary type information for JSX elements
- * when aisx is used in other projects
  */
 declare global {
   namespace JSX {
@@ -31,6 +22,12 @@ declare global {
       children?: Children
     }
   }
-}
+} 
+export { Fragment };
 
-export {}
+export const jsx: JSXFunction;
+export const jsxs: JSXFunction;
+export const jsxDEV: JSXFunction;
+
+
+
