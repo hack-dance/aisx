@@ -4,6 +4,9 @@ import { $ } from "bun"
 
 await $`rm -rf dist`
 
+console.debug("Generating TypeScript declarations...")
+await $`tsc --emitDeclarationOnly --declaration --outDir dist`
+
 console.debug("Building ESM modules...")
 
 await Bun.build({
@@ -27,7 +30,7 @@ await Bun.build({
     "./src/jsx-runtime/jsx-dev-runtime.ts"
   ],
   banner: "/** @jsxImportSource aisx */",
-  outdir: "./dist/jsx-runtime",
+  outdir: "./dist/src/jsx-runtime",
   format: "esm",
   target: "node",
   sourcemap: "external",
@@ -39,7 +42,7 @@ await Bun.build({
 
 await Bun.build({
   entrypoints: ["./src/jsx-dev-runtime/index.ts"],
-  outdir: "./dist/jsx-dev-runtime",
+  outdir: "./dist/src/jsx-dev-runtime",
   banner: "/** @jsxImportSource aisx */",
   format: "esm",
   target: "node",
@@ -103,9 +106,6 @@ await $`mkdir -p ./dist/tsconfig ./dist/cjs/tsconfig`
 await cp("./src/tsconfig/aisx.json", "./dist/tsconfig/aisx.json")
 await cp("./src/tsconfig/aisx.json", "./dist/cjs/tsconfig/aisx.json")
 
-console.debug("Generating TypeScript declarations...")
-await $`tsc --emitDeclarationOnly --declaration --outDir dist`
-
 console.debug("Creating package.json for CJS...")
 await writeFile(
   join("dist", "cjs", "package.json"),
@@ -119,6 +119,6 @@ await writeFile(
 )
 
 console.debug("Copying global.d.ts to dist...")
-await cp("./src/global.d.ts", "./dist/global.d.ts")
+await cp("./src/global.d.ts", "./dist/src/global.d.ts")
 
 console.debug("Build completed successfully!")

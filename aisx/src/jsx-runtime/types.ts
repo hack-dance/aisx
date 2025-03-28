@@ -1,13 +1,43 @@
 /**
- * Core type definitions for aisx
+ * Render Node definition
  */
+export interface RenderNode {
+  name: string
+  isAsync: boolean
+  depth: number
+  children: Children
+  childNodes: RenderNode[]
+  props?: Record<string, unknown> | null
+  hasPromises?: boolean
+  parent?: RenderNode
+}
+
+/**
+ * Async context tracking
+ * @property isRoot - Whether the current render is the root of the component tree
+ * @property parentIsAsync - Whether the parent component is async
+ * @property depth - The depth of the current render in the component tree
+ */
+export interface AsyncContext {
+  isRoot?: boolean
+  parentIsAsync?: boolean
+  depth?: number
+}
+
+/**
+ * Render Tree Context definition
+ */
+export interface RenderTreeContext extends AsyncContext {
+  tree?: RenderNode
+  parent?: RenderNode
+}
 
 /**
  * Base Props definition
  */
 export interface BaseProps {
   [key: string]: unknown
-  children?: unknown
+  children?: Children
 
   // Standard JSX props
   key?: string | number
@@ -19,7 +49,7 @@ export interface BaseProps {
  */
 export type TypedBaseProps<T extends Record<string, unknown> = Record<string, never>> = T & {
   [key: string]: unknown
-  children?: unknown
+  children?: Children
 
   // Standard JSX props
   key?: string | number
@@ -34,15 +64,17 @@ export type Component<P extends BaseProps = BaseProps> = (props: P) => string | 
 /**
  * Children type definition
  */
-export type Children =
+export type Child =
   | string
   | number
   | boolean
   | null
   | undefined
-  | Array<Children>
   | Component<BaseProps>
   | Promise<string>
+  | Child[] // Allow arrays as valid children
+
+export type Children = Child | Child[]
 
 /**
  * Base Props with Children definition
@@ -57,6 +89,7 @@ export interface BasePropsWithChildren extends BaseProps {
 export type JSXFunction = <P extends BaseProps>(
   tag: string | Component<P>,
   props: P | null,
+  context?: AsyncContext,
   ...children: unknown[]
 ) => Promise<string> | string
 
@@ -79,20 +112,5 @@ export function render(element: unknown): Promise<string> | string {
   return ""
 }
 
-/**
- * JSX type definitions
- * These will be used to generate the global.d.ts file
- */
-export interface JSXIntrinsicElements {
-  [elemName: string]: BasePropsWithChildren
-}
-
+// Define JSX Element type alias for export
 export type JSXElement = string | Promise<string>
-
-export interface JSXElementAttributesProperty {
-  props: Record<string, unknown>
-}
-
-export interface JSXElementChildrenAttribute {
-  children: Children
-}

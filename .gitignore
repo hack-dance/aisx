@@ -48,3 +48,4 @@ tsconfig.tsbuildinfo
 *.cer
 
 merchant_keys/
+aisx/.aisxrc

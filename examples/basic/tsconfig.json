@@ -1,11 +1,13 @@
 {
   "extends": "aisx/tsconfig/aisx",
   "compilerOptions": {
+    "strict": true,
     "moduleResolution": "bundler",
     "target": "ESNext",
     "module": "ESNext",
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "declaration": true
   },
   "include": [
     "./**/*.ts",
