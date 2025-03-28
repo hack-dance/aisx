@@ -1,4 +1,4 @@
-import { readFile } from "node:fs/promises"
+import { cp, readFile } from "node:fs/promises"
 import { $ } from "bun"
 async function confirm(message: string): Promise<boolean> {
   process.stdout.write(`${message} (y/N): `)
@@ -104,6 +104,11 @@ await $`npm version ${versionArg} --no-git-tag-version`
 const packageJson = JSON.parse(await readFile("package.json", "utf-8"))
 newVersion = packageJson.version
 console.log(`✅ Version bumped to ${newVersion}\n`)
+
+console.log("📦 Copying documentation files...")
+await cp("../README.md", "./README.md")
+await cp("../SETUP.md", "./SETUP.md")
+console.log("✅ Documentation files copied\n")
 
 console.log("📦 PUBLISH PREVIEW:")
 console.log(`Package: ${packageJson.name}@${newVersion}`)

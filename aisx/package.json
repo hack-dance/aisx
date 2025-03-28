@@ -34,10 +34,18 @@
   "types": "dist/src/types.d.ts",
   "typesVersions": {
     "*": {
-      "*": ["src/jsx-runtime/types.d.ts"],
-      "types": ["src/jsx-runtime/types.d.ts"],
-      "jsx-runtime": ["src/jsx-runtime/index.d.ts"],
-      "jsx-runtime/types": ["src/jsx-runtime/types.d.ts"]
+      "*": [
+        "src/jsx-runtime/types.d.ts"
+      ],
+      "types": [
+        "src/jsx-runtime/types.d.ts"
+      ],
+      "jsx-runtime": [
+        "src/jsx-runtime/index.d.ts"
+      ],
+      "jsx-runtime/types": [
+        "src/jsx-runtime/types.d.ts"
+      ]
     }
   },
   "typings": "dist/src/types.d.ts",
