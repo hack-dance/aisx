@@ -31,8 +31,16 @@
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/src/global.d.ts",
-  "typings": "dist/src/global.d.ts",
+  "types": "dist/src/types.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": ["src/jsx-runtime/types.d.ts"],
+      "types": ["src/jsx-runtime/types.d.ts"],
+      "jsx-runtime": ["src/jsx-runtime/index.d.ts"],
+      "jsx-runtime/types": ["src/jsx-runtime/types.d.ts"]
+    }
+  },
+  "typings": "dist/src/types.d.ts",
   "files": [
     "dist",
     "README.md",
@@ -49,6 +57,11 @@
       "import": "./dist/src/jsx-runtime/index.js",
       "require": "./dist/src/jsx-runtime/index.js",
       "types": "./dist/src/jsx-runtime/index.d.ts"
+    },
+    "./jsx-runtime/types": {
+      "import": "./dist/src/jsx-runtime/types.js",
+      "require": "./dist/src/jsx-runtime/types.js",
+      "types": "./dist/src/jsx-runtime/types.d.ts"
     },
     "./jsx-dev-runtime": {
       "import": "./dist/src/jsx-dev-runtime/index.js",

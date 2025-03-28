@@ -106,6 +106,10 @@ await $`mkdir -p ./dist/tsconfig ./dist/cjs/tsconfig`
 await cp("./src/tsconfig/aisx.json", "./dist/tsconfig/aisx.json")
 await cp("./src/tsconfig/aisx.json", "./dist/cjs/tsconfig/aisx.json")
 
+console.debug("Ensuring type definitions are in place...")
+await $`mkdir -p ./dist/src/jsx-runtime`
+await $`cp ./dist/src/jsx-runtime/types.d.ts ./dist/src/jsx-runtime/types.d.ts 2>/dev/null || true`
+
 console.debug("Creating package.json for CJS...")
 await writeFile(
   join("dist", "cjs", "package.json"),

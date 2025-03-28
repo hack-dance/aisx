@@ -72,7 +72,9 @@ export type Child =
   | undefined
   | Component<BaseProps>
   | Promise<string>
-  | Child[] // Allow arrays as valid children
+  | Child[]
+  | false // explicitly included false for short-circuit operations
+  | unknown // explicitly allow unknown for short-circuit operations with &&
 
 export type Children = Child | Child[]
 

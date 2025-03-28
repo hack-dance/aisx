@@ -182,6 +182,23 @@ const enforceAwait = async (
 }
 
 /**
+ * Type guard for RenderNode
+ * @param value - The value to check
+ * @returns True if the value is a RenderNode, false otherwise
+ */
+function isRenderNode(value: unknown): value is RenderNode {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "name" in value &&
+    "isAsync" in value &&
+    "depth" in value &&
+    "children" in value &&
+    "childNodes" in value
+  )
+}
+
+/**
  * Stringify a value
  * @param value - The value to stringify
  * @param isAttribute - Whether the value is an attribute
@@ -193,6 +210,16 @@ const stringifyValue = async (
   isAttribute = false,
   context?: RenderTreeContext
 ): Promise<string> => {
+  // handle falsy values from short-circuit operations
+  if (value === false || value === null || value === undefined) {
+    return ""
+  }
+
+  // Handle unknown values that are falsy (from && operations)
+  if (!value) {
+    return ""
+  }
+
   if (value instanceof Promise) {
     try {
       const resolvedValue = await value
@@ -210,32 +237,30 @@ const stringifyValue = async (
     }
   }
 
-  if (
-    value === null ||
-    value === undefined ||
-    (typeof value === "object" && !Array.isArray(value))
-  ) {
+  // Handle RenderNode objects
+  if (isRenderNode(value)) {
+    return value.name
+  }
+
+  // Handle other objects
+  if (typeof value === "object" && value !== null) {
     if (value instanceof Date) {
       return value.toISOString()
     }
 
-    if (typeof value === "object" && value !== null) {
-      try {
-        return JSON.stringify(value)
-      } catch (error) {
-        AisxLogger.warn(
-          new AisxError(
-            "AisxError",
-            "Failed to stringify object",
-            context || { isRoot: false },
-            error instanceof Error ? error : undefined
-          )
+    try {
+      return JSON.stringify(value)
+    } catch (error) {
+      AisxLogger.warn(
+        new AisxError(
+          "AisxError",
+          "Failed to stringify object",
+          context || { isRoot: false },
+          error instanceof Error ? error : undefined
         )
-        return ""
-      }
+      )
+      return ""
     }
-
-    return ""
   }
 
   if (Array.isArray(value)) {
@@ -315,20 +340,31 @@ const formatRenderTree = (node: RenderNode | Child, indent = ""): string => {
     return node.map(child => formatRenderTree(child, indent)).join("")
   }
 
-  if (!("name" in node)) {
-    return `${indent}Unknown\n`
+  // Type guard for RenderNode
+  if (
+    typeof node === "object" &&
+    node !== null &&
+    "name" in node &&
+    "isAsync" in node &&
+    "depth" in node &&
+    "children" in node &&
+    "childNodes" in node &&
+    Array.isArray((node as RenderNode).childNodes)
+  ) {
+    const renderNode = node as RenderNode
+    const asyncMark = renderNode.isAsync ? "⚡️" : "  "
+    const promiseMark = renderNode.hasPromises ? "🔄" : "  "
+    let result = `${indent}${asyncMark}${promiseMark} ${renderNode.name}\n`
+
+    const sortedChildren = [...renderNode.childNodes].sort((a, b) => a.name.localeCompare(b.name))
+    for (const child of sortedChildren) {
+      result += formatRenderTree(child, indent + "  ")
+    }
+
+    return result
   }
 
-  const asyncMark = node.isAsync ? "⚡️" : "  "
-  const promiseMark = node.hasPromises ? "🔄" : "  "
-  let result = `${indent}${asyncMark}${promiseMark} ${node.name}\n`
-
-  const sortedChildren = [...node.childNodes].sort((a, b) => a.name.localeCompare(b.name))
-  for (const child of sortedChildren) {
-    result += formatRenderTree(child, indent + "  ")
-  }
-
-  return result
+  return `${indent}Unknown\n`
 }
 
 /**

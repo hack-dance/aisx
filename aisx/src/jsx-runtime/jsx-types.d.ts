@@ -9,13 +9,13 @@ declare global {
     interface IntrinsicElements {
       [elemName: string]: BasePropsWithChildren
     }
-    
+
     type Element = string | Promise<string>
-    
+
     interface ElementAttributesProperty {
       props: Record<string, unknown>
     }
-    
+
     interface ElementChildrenAttribute {
       children?: Children
     }
