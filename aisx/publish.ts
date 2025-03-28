@@ -83,27 +83,16 @@ if (buildResult.exitCode !== 0) {
 
 console.log("✅ Build successful!\n")
 
-let newVersion = ""
-try {
-  const output = await $`npm --no-git-tag-version version ${versionArg} --dry-run`.text()
-  newVersion = output.trim().replace(/^v/, "")
-  console.log(`🏷️ New version will be: ${newVersion}`)
-} catch (error) {
-  console.error("❌ Failed to determine new version")
-  process.exit(1)
-}
-
-if (!(await confirm(`Ready to prepare ${currentPackageJson.name}@${newVersion} for publishing?`))) {
+if (!(await confirm(`Ready to prepare ${versionArg} for ${currentPackageJson.name}?`))) {
   console.log("🛑 Publish aborted.")
   process.exit(0)
 }
 
-console.log(`\n📝 Bumping version to ${newVersion}...`)
+console.log(`\n📝 Bumping version with ${versionArg} for ${currentPackageJson.name}...`)
 await $`npm version ${versionArg} --no-git-tag-version`
 
 const packageJson = JSON.parse(await readFile("package.json", "utf-8"))
-newVersion = packageJson.version
-console.log(`✅ Version bumped to ${newVersion}\n`)
+console.log(`✅ Version bumped to ${packageJson.version}\n`)
 
 console.log("📦 Copying documentation files...")
 await cp("../README.md", "./README.md")
@@ -111,22 +100,10 @@ await cp("../SETUP.md", "./SETUP.md")
 console.log("✅ Documentation files copied\n")
 
 console.log("📦 PUBLISH PREVIEW:")
-console.log(`Package: ${packageJson.name}@${newVersion}`)
+console.log(`Package: ${packageJson.name}@${packageJson.version}`)
 console.log(`Repository: ${packageJson.repository?.url || "Not specified"}`)
 console.log(`License: ${packageJson.license}`)
 console.log("\n⚠️ NO CHANGES HAVE BEEN PUBLISHED YET ⚠️\n")
-
-console.log("📋 NEXT STEPS:")
-console.log(`To publish version ${newVersion} to npm, you need to:`)
-console.log("\n1. Check that everything is correct in the package")
-console.log("2. Run one of the following commands:")
-console.log("\n   To publish to npm (default scope):")
-console.log("   npm publish")
-console.log("\n   To publish to npm (public scope):")
-console.log("   npm publish --access public")
-console.log("\n3. Push git changes:")
-console.log(`   git push origin v${newVersion}  # Push the tag`)
-console.log("   git push                       # Push the commit")
 
 if (await confirm("\nWould you like to do a dry-run publish to verify everything?")) {
   console.log("\n🧪 Running npm publish --dry-run...")

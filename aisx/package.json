@@ -1,6 +1,6 @@
 {
   "name": "aisx",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A JSX-based templating engine for generating structured prompts with TypeScript support",
   "license": "MIT",
   "author": "Dimitri Kennedy <dimitri@sick.email> (https://hack.dance)",
