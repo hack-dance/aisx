@@ -1,6 +1,6 @@
-import { BaseProps, Component } from ".."
+import { BaseProps, Component, Children } from ".."
 import { Fragment, jsx, jsxs } from "./jsx-runtime"
-import { JSXFunction } from "./types"
+import { JSXFunction, RenderTreeContext } from "./types"
 
 declare global {
   let jsx: JSXFunction
@@ -23,21 +23,49 @@ export { jsx, jsxs, Fragment }
 
 export * from "./types"
 
-export function render(element: unknown): string | Promise<string> {
-  if (typeof element === "string") {
-    return element
-  }
+const defaultContext: RenderTreeContext = {
+  isRoot: true,
+  depth: 0,
+  tree: undefined,
+  parent: undefined
+}
 
-  if (element instanceof Promise) {
-    return element.then(resolved => render(resolved))
-  }
+export function render(
+  element: Children,
+  context: RenderTreeContext = defaultContext
+): string | Promise<string> {
+  return jsx(
+    Fragment,
+    { children: element },
+    {
+      ...context,
+      isRoot: true,
+      parentIsAsync: false,
+      depth: 0
+    }
+  )
+}
 
-  return jsx(Fragment, { children: element })
+export async function renderAsync(
+  element: Children,
+  context: RenderTreeContext = defaultContext
+): Promise<string> {
+  return jsx(
+    Fragment,
+    { children: element },
+    {
+      ...context,
+      isRoot: true,
+      parentIsAsync: true,
+      depth: 0
+    }
+  )
 }
 
 export default (function aisx() {
   return {
     render,
+    renderAsync,
     jsx,
     jsxs,
     Fragment

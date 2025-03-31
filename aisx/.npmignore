@@ -1,1 +1,10 @@
 tsconfig.json
+.aisxrc
+.gitignore
+.git
+.DS_Store
+.idea
+.vscode
+.bunfig.toml
+.build.ts
+.publish.ts

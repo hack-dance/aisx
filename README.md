@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./public/aisx.svg" style="max-width:400px;" />
+<img src="https://public.assets.tube/aisx.svg" style="max-width:400px;" />
 </p>
 <p align="center">
 _aisx - AI Markup Language_

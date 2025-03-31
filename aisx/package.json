@@ -1,6 +1,6 @@
 {
   "name": "aisx",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A JSX-based templating engine for generating structured prompts with TypeScript support",
   "license": "MIT",
   "author": "Dimitri Kennedy <dimitri@sick.email> (https://hack.dance)",
@@ -31,8 +31,24 @@
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "typings": "dist/index.d.ts",
+  "types": "dist/src/types.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "src/jsx-runtime/types.d.ts"
+      ],
+      "types": [
+        "src/jsx-runtime/types.d.ts"
+      ],
+      "jsx-runtime": [
+        "src/jsx-runtime/index.d.ts"
+      ],
+      "jsx-runtime/types": [
+        "src/jsx-runtime/types.d.ts"
+      ]
+    }
+  },
+  "typings": "dist/src/types.d.ts",
   "files": [
     "dist",
     "README.md",
@@ -43,24 +59,32 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/src/index.d.ts"
     },
     "./jsx-runtime": {
-      "import": "./dist/jsx-runtime/index.js",
-      "require": "./dist/jsx-runtime/index.js",
-      "types": "./dist/jsx-runtime/index.d.ts"
+      "import": "./dist/src/jsx-runtime/index.js",
+      "require": "./dist/src/jsx-runtime/index.js",
+      "types": "./dist/src/jsx-runtime/index.d.ts"
+    },
+    "./jsx-runtime/types": {
+      "import": "./dist/src/jsx-runtime/types.js",
+      "require": "./dist/src/jsx-runtime/types.js",
+      "types": "./dist/src/jsx-runtime/types.d.ts"
     },
     "./jsx-dev-runtime": {
-      "import": "./dist/jsx-dev-runtime/index.js",
-      "require": "./dist/jsx-dev-runtime/index.js",
-      "types": "./dist/jsx-dev-runtime/index.d.ts"
+      "import": "./dist/src/jsx-dev-runtime/index.js",
+      "require": "./dist/src/jsx-dev-runtime/index.js",
+      "types": "./dist/src/jsx-dev-runtime/index.d.ts"
     },
     "./tsconfig/aisx": {
       "import": "./dist/tsconfig/aisx.json",
       "require": "./dist/tsconfig/aisx.json"
     },
-    "./types/global": {
-      "types": "./dist/global.d.ts"
+    "./global": {
+      "types": "./dist/src/global.d.ts"
+    },
+    "./types": {
+      "types": "./dist/src/global.d.ts"
     },
     "./package.json": "./package.json"
   },
