@@ -19,10 +19,10 @@ export function Greeting({ name, role = "user" }: GreetingProps) {
 
 export function SystemPrompt({ model, instructions }: { model: string; instructions: string }) {
   return (
-    <sytem>
+    <system>
       <model>{model}</model>
       <instructions>{instructions}</instructions>
-    </sytem>
+    </system>
   )
 }
 
