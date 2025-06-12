@@ -1,0 +1,14 @@
+{
+  "name": "aisx-python",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "bun test"
+  },
+  "dependencies": {
+    "aisx": "file:../aisx"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.2"
+  }
+}
